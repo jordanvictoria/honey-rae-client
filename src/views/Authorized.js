@@ -13,3 +13,4 @@ export const Authorized = () => {
   }
   return <Navigate to='/login' replace />
 }
+

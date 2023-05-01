@@ -60,4 +60,13 @@ export const deleteTicket = (id) => {
   )
 }
 
+export const searchTickets = (searchTerm) => {
+  return fetch(`http://localhost:8000/tickets?search=${searchTerm}`, {
+    headers: {
+      Authorization: `Token ${getToken()}`
+    }
+  })
+    .then(res => res.json())
+};
+
 

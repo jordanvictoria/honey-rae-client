@@ -18,9 +18,12 @@ export const Ticket = () => {
   useEffect(
     () => {
       fetchTicket()
-    },
-    [ticketId]
+    }, [ticketId]
   )
+
+
+
+
 
   useEffect(
     () => {
@@ -28,9 +31,16 @@ export const Ticket = () => {
     }, []
   )
 
+
+
+
   const deleteTicketEvent = () => {
     deleteTicket(ticketId).then(() => navigate("/"))
   }
+
+
+
+
 
   const updateTicketEvent = (evt) => {
     const updatedTicket = {
@@ -41,15 +51,54 @@ export const Ticket = () => {
     updateTicket(updatedTicket).then(() => fetchTicket())
   }
 
+
+
+
+
+  const updateTicketDate = () => {
+    const currentDate = new Date();
+
+    const currentDayOfMonth = currentDate.getDate();
+    const currentMonth = currentDate.getMonth(); 
+    const currentYear = currentDate.getFullYear();
+
+    const dateString = currentYear + "-" + (currentMonth + 1) + "-" + currentDayOfMonth;
+
+    const updatedTicket = {
+      ...ticket,
+      date_completed: dateString
+      // employee: 3 *** IS HARD CODED NO GOOD
+    }
+
+    updateTicket(updatedTicket).then(() => navigate("/"))
+  }
+
+
+
+
+
   const ticketStatus = () => {
     if (ticket.date_completed === null) {
       if (ticket.employee) {
-        return <span className="status--in-progress">In progress</span>
+        return  <>
+        <span className="status--in-progress">In progress</span> 
+        <button className="status--mark-done"
+        onClick={
+          () => {
+            updateTicketDate()
+          }
+      }>Mark As Done</button>
+        </>
       }
       return <span className="status--new">Unclaimed</span>
     }
     return <span className="status--completed">Done</span>
   }
+
+
+
+
+  
 
   const employeePicker = () => {
     if (isStaff()) {
@@ -69,6 +118,10 @@ export const Ticket = () => {
       return <div className="ticket__employee">Assigned to {ticket.employee?.full_name ?? "no one"}</div>
     }
   }
+
+
+  
+
 
   return (
     <>
